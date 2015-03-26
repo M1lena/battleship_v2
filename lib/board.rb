@@ -2,6 +2,7 @@ require_relative 'ship'
 
 class Board
   attr_reader :grid
+
   def initialize
     @grid = { A1: "", A2: "", A3: "", A4: "", A5: "" }
   end
@@ -9,18 +10,15 @@ class Board
   def place(ship, cell)
     # fail 'More arguements needed' if cell. < @size
     fail 'Can\'t place' unless @grid.key?(cell)
-    fail 'Can\'t place' if @grid[cell] != ""
-    @grid[cell] = ship
+    fail 'Can\'t place' if @grid[cell] != "" || @grid.key? :A6
+    coords = get_coords ship, cell
+    coords.each { |coord| @grid[coord] = ship }
   end
 
   def hit!(cell)
     fail 'Spot has already been hit' if already_hit?(cell)
     fail 'can\'t hit location off board' unless @grid.key?(cell)
-
     grid[cell].hit! if grid[cell].respond_to? :hit_counter
-
-    # @grid[cell] = 'X' if @grid[cell] == :ship
-    # @grid[cell] = 'O' if @grid[cell] == ""
     hit_result(cell)
   end
 
@@ -35,15 +33,14 @@ class Board
       @grid[cell] = 'X'
     end
   end
+
+  def get_coords ship, cell
+    coords = [cell]
+    (ship.size - 1).times { coords << coords.last.next }
+    coords
+    # coords.last.to_s.reverse.next.reverse.to_sym
+  end
+
+  # def out_of_bounds?
+  # end
 end
-
-
-# iterate over the hash and look up a key such as a1
-# find the length of the ship
-# then you want to fill each value with 'ship'
-#
-
-# m = ship.size
-# cell
-
-# build loop with next basedon size

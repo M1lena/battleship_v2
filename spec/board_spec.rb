@@ -3,7 +3,11 @@ require 'board'
 describe Board do
   let(:board) { Board.new }
   let(:ship1) do
-    double :ship, sunk: false, hit_counter: 0, :class => Ship, hit!: nil
+    double :ship, sunk: false,
+                  hit_counter: 0,
+                  :class => Ship,
+                  hit!: nil,
+                  size: 1
   end
   context 'can place ships on the board' do
     it 'place ship on board location' do
@@ -12,7 +16,8 @@ describe Board do
     end
 
     it 'cannot place ship off board location' do
-      expect { board.place(ship1, :A6) }.to raise_error 'Can\'t place'
+      ship2 = double :ship, size: 3
+      expect { board.place(ship2, :A5) }.to raise_error 'Can\'t place'
     end
 
     it 'cannot place ship in another ship\'s place' do
@@ -21,9 +26,9 @@ describe Board do
     end
 
     it 'can place ship on board\'s cell\'s relative to ship size' do
-      ship2 = double :ship, size: 2
+      ship2 = double :ship, size: 3
       board.place(ship2, :A1)
-      expect(board.grid).to eq(A1: ship2, A2: ship2, A3: "", A4: "", A5: "")
+      expect(board.grid).to eq(A1: ship2, A2: ship2, A3: ship2, A4: "", A5: "")
     end
   end
   context 'can fire at the board' do
