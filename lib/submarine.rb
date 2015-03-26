@@ -1,0 +1,2 @@
+class Submarine
+end

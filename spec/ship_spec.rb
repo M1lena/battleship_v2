@@ -10,10 +10,15 @@ describe Ship do
     end
   end
   context 'sinking a ship' do
+    it 'when hit, hit counter will increase' do
+      subject.hit!
+      expect(subject.hit_counter).to eq 1
+    end
     it 'starts with a sunk status' do
       expect(subject.sunk).to eq false
     end
-    xit 'can be sunk' do
+    it 'can be sunk' do
+      subject.hit!
       expect(subject.sunk).to eq true
     end
   end

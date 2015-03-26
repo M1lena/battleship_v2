@@ -8,7 +8,12 @@ class Ship
     @sunk = false
   end
 
+  def hit!
+    @hit_counter += 1
+    sink
+  end
+
   def sink
-    @sunk = true if @hit_counter < @size
+    @sunk = true if @hit_counter == @size
   end
 end
