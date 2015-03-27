@@ -9,26 +9,26 @@ class Board
 
   def place(ship, cell)
     # fail 'More arguements needed' if cell. < @size
-    fail 'Can\'t place' unless @grid.key?(cell)
-    fail 'Can\'t place' if @grid[cell] != "" || @grid.key? :A6
+    fail 'Can\'t place' unless grid.key?(cell)
+    fail 'Can\'t place' if grid[cell] != "" # || @grid.key? :A6
     coords = get_coords ship, cell
-    coords.each { |coord| @grid[coord] = ship }
+    coords.each { |coord| grid[coord] = ship }
   end
 
   def hit!(cell)
     fail 'Spot has already been hit' if already_hit?(cell)
-    fail 'can\'t hit location off board' unless @grid.key?(cell)
+    fail 'can\'t hit location off board' unless grid.key?(cell)
     grid[cell].hit! if grid[cell].respond_to? :hit_counter
     hit_result(cell)
   end
 
   def already_hit?(cell)
-    true if @grid[cell] == 'X' || @grid[cell] == 'O'
+    grid[cell] == 'X' || grid[cell] == 'O'
   end
 
   def hit_result(cell)
-    if @grid[cell] == ""
-      @grid[cell] = 'O'
+    if grid[cell] == ""
+      grid[cell] = 'O'
     else
       @grid[cell] = 'X'
     end
